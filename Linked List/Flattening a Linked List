@@ -1,0 +1,40 @@
+Node* merge(Node* t1, Node* t2){
+    Node* dummyNode = new Node(-1);
+    Node* temp = dummyNode;
+    while(t1 != NULL && t2 != NULL){
+        if(t1 -> data < t2 -> data){
+            temp -> bottom = t1;
+            temp = t1;
+            t1 = t1 -> bottom;
+        }else{
+            temp -> bottom = t2;
+            temp = t2;
+            t2 = t2 -> bottom;
+        }
+        temp -> next = NULL;
+    }
+    if(t1){
+        temp -> bottom = t1;
+    }else{
+        temp -> bottom = t2;
+    }
+    if(dummyNode -> bottom){
+        dummyNode -> bottom -> next = NULL;
+    }
+    return dummyNode -> bottom;
+}
+
+
+
+
+/*  Function which returns the  root of
+    the flattened linked list. */
+Node *flatten(Node *root) {
+    // Your code here
+    if(root == NULL || root -> next == NULL){
+        return root;
+    }
+    Node* merged = flatten(root -> next);
+    root = merge(root, merged);
+    return root;
+}
